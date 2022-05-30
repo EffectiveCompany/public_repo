@@ -1,0 +1,72 @@
+apply plugin: 'java-library'
+apply plugin: 'groovy'
+apply plugin: 'eclipse'
+
+repositories {
+	mavenLocal()
+	mavenCentral()
+	flatDir { dirs "${project.rootDir}/dev-lib/" }
+}
+
+sourceSets {
+	main {
+		java {
+			srcDirs = []
+		}
+		groovy {
+			srcDirs = ['src/groovy', 'src/java','src-gen/java']
+		}
+		resources {
+			srcDirs = ['src/resources','src-gen/resources']
+		}
+	}
+	test {
+		java {
+			srcDirs = []
+		}
+		groovy {
+			srcDirs = ['src/test']
+		}
+	}
+}
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(11)
+	}
+}
+
+dependencies {
+	implementation 'org.effectivecompany:efc_database:2.254.0'
+	implementation 'org.codehaus.groovy:groovy-all:3.0.10'
+	implementation 'org.codehaus.groovy:groovy-dateutil:3.0.10'
+	implementation 'org.effectivecompany:efc_base:2.7.6'
+	implementation 'org.effectivecompany:efc_base_dsl:0.5.0'
+	implementation 'org.mybatis:mybatis:3.5.9'
+	implementation 'org.mybatis.dynamic-sql:mybatis-dynamic-sql:1.4.0'
+}
+eclipse {
+	project {
+		buildCommands.clear();
+		buildCommand 'org.eclipse.buildship.core.gradleprojectbuilder'
+		buildCommand 'org.eclipse.jdt.core.javabuilder'
+		
+		natures 'org.eclipse.buildship.core.gradleprojectnature'
+		natures 'org.eclipse.jdt.core.javanature'
+		natures 'org.eclipse.jdt.groovy.core.groovyNature'
+	}
+	classpath {
+		defaultOutputDir = file("$buildDir/eclipse/classes/main")
+		file.whenMerged {
+			entries.each { entry ->
+				if (entry instanceof org.gradle.plugins.ide.eclipse.model.SourceFolder) {
+					entry.output = entry.output.replace('bin', "$buildDir.name/eclipse/classes")
+				}
+			}
+			def jre = entries.find { it.path.contains 'org.eclipse.jdt.launching.JRE_CONTAINER' }
+				
+			// set the jre to the workspace default, should be jdk
+			jre.path = 'org.eclipse.jdt.launching.JRE_CONTAINER'
+		}
+	}
+}
