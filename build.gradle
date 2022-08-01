@@ -37,12 +37,11 @@ java {
 }
 
 dependencies {
-	implementation 'org.effectivecompany:efc_database:2.254.0'
-	implementation 'org.codehaus.groovy:groovy-all:3.0.10'
-	implementation 'org.codehaus.groovy:groovy-dateutil:3.0.10'
-	implementation 'org.effectivecompany:efc_base:2.7.6'
-	implementation 'org.effectivecompany:efc_base_dsl:0.5.0'
-	implementation 'org.mybatis:mybatis:3.5.9'
+	implementation 'org.effectivecompany:efc_database:2.256.1'
+	implementation 'org.apache.groovy:groovy-all:4.0.4'
+	implementation 'org.effectivecompany:efc_base:2.7.10'
+	implementation 'org.effectivecompany:efc_base_dsl:0.5.2'
+	implementation 'org.mybatis:mybatis:3.5.10'
 	implementation 'org.mybatis.dynamic-sql:mybatis-dynamic-sql:1.4.0'
 }
 eclipse {
